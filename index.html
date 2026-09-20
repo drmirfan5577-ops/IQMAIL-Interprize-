@@ -1,119 +1,53 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IQMAIL — Intelligent Email Platform</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #2c3e50; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 30px; font-size: 14px; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; padding: 14px; background: #2980b9; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #1f618d; }
-        .inbox { margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px; }
-        .inbox h2 { color: #2c3e50; font-size: 20px; }
-        .email-item { background: #f9f9f9; padding: 15px; border-radius: 6px; margin-bottom: 10px; border-right: 4px solid #2980b9; }
-        .email-item.sent { border-right-color: #27ae60; }
-        .email-from { font-weight: bold; font-size: 14px; color: #555; }
-        .email-subject { font-size: 16px; margin: 5px 0; color: #000; }
-        .email-body { font-size: 13px; color: #666; white-space: pre-wrap; }
-        .status { text-align: center; margin-top: 15px; font-weight: bold; }
-        .footer { margin-top: 40px; text-align: center; font-size: 11px; color: #888; line-height: 1.6; }
-    </style>
-</head>
-<body>
+    <meta name="description" content="IQMAIL is a next-generation AI-powered email platform with live analytics, automation, and intelligent inbox management." />
+    <meta name="keywords" content="email client, AI email, inbox management, email analytics, smart email, IQMAIL" />
+    <meta name="author" content="IQMAIL" />
 
-    <div class="container">
-        <h1>IQMAIL</h1>
-        <p class="subtitle">Intelligent Email Platform</p>
-        
-        <form id="emailForm">
-            <input type="email" id="to" placeholder="موصول کنندہ (To Email)" required>
-            <input type="text" id="subject" placeholder="موضوع (Subject)" required>
-            <textarea id="message" rows="5" placeholder="اپنا پیغام یہاں لکھیں..." required></textarea>
-            <button type="submit" id="sendBtn">ای میل بھیجیں</button>
-        </form>
-        <p id="status" class="status"></p>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://iqmail.onspace.app" />
+    <meta property="og:title" content="IQMAIL — Intelligent Email Platform" />
+    <meta property="og:description" content="Next-generation AI-powered email with live analytics and intelligent automation." />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="IQMAIL" />
+    <meta property="og:locale" content="en_US" />
 
-        <div class="inbox">
-            <h2> ان باکس (Inbox)</h2>
-            <div id="emailList">
-                <p style="text-align:center; color:#999;">ای میلز لوڈ ہو رہی ہیں...</p>
-            </div>
-        </div>
-    </div>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://iqmail.onspace.app" />
+    <meta name="twitter:title" content="IQMAIL — Intelligent Email Platform" />
+    <meta name="twitter:description" content="Next-generation AI-powered email with live analytics and intelligent automation." />
+    <meta name="twitter:image" content="/og-image.jpg" />
 
-    <div class="footer">
-        Secrecy policy# | Warnings# | Disclaimer#<br>
-        کاپی رائٹ: SMART WORLD ORDER<br>
-        Vision by Dr M Irfan Qadir Thaheem<br>
-        رابطہ: WhatsApp 0300_4737757 | Email: dr.mirfan5577@gmail.com
-    </div>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <script>
-        document.getElementById('emailForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const status = document.getElementById('status');
-            const btn = document.getElementById('sendBtn');
-            
-            status.textContent = 'ای میل بھیجی جا رہی ہے...';
-            status.style.color = '#2980b9';
-            btn.disabled = true;
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-            try {
-                const res = await fetch('/.netlify/functions/send_emails', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        to: document.getElementById('to').value,
-                        subject: document.getElementById('subject').value,
-                        body: document.getElementById('message').value
-                    })
-                });
-                
-                const data = await res.json();
-                if (res.ok) {
-                    status.textContent = '✅ ای میل کامیابی سے بھیج دی گئی!';
-                    status.style.color = 'green';
-                    document.getElementById('emailForm').reset();
-                    loadEmails();
-                } else {
-                    status.textContent = '❌ خرابی: ' + (data.message || 'کچھ غلط ہو گیا');
-                    status.style.color = 'red';
-                }
-            } catch (error) {
-                status.textContent = '❌ نیٹ ورک کی خرابی';
-                status.style.color = 'red';
-            }
-            btn.disabled = false;
-        });
-
-        async function loadEmails() {
-            const list = document.getElementById('emailList');
-            try {
-                const res = await fetch('/.netlify/functions/get-emails');
-                const emails = await res.json();
-                
-                if (emails.length === 0) {
-                    list.innerHTML = '<p style="text-align:center; color:#999;">ان باکس خالی ہے</p>';
-                    return;
-                }
-
-                list.innerHTML = emails.map(email => `
-                    <div class="email-item ${email.type}">
-                        <div class="email-from">${email.type === 'sent' ? '📤 بھیجی گئی به:' : '📩 موصول ہوئی از:'} ${email.type === 'sent' ? email.to_email : email.from_email}</div>
-                        <div class="email-subject">${email.subject || '(کوئی موضوع نہیں)'}</div>
-                        <div class="email-body">${email.body}</div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                list.innerHTML = '<p style="text-align:center; color:red;">ای میلز لوڈ نہیں ہو سکیں</p>';
-            }
-        }
-
-        loadEmails();
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "IQMAIL",
+      "url": "https://iqmail.onspace.app",
+      "description": "Next-generation AI-powered email platform with live analytics and intelligent automation."
+    }
     </script>
-</body>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
